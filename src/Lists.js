@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import GeneratedAt from './GeneratedAt'
 import { User, UserList } from './User'
-import { createUserList } from './util'
+import { createUserList, localDate } from './util'
 
 const WRAP_CUTOFF = '450px'
 
@@ -30,7 +30,7 @@ width: 47.5%;
 const Lists = styled(({ className, lists }) => {
   return (
     <div className={className}>
-      <GeneratedAt date={lists.ksk.date} time={lists.ksk.time} />
+      <GeneratedAt date={localDate(lists.ksk.date, lists.ksk.time)} />
       <div>
         {lists.ksk.lists.map(list => <List key={list.id} name={list.n} users={createUserList(list.users, lists.ksk.users)} />)}
       </div>

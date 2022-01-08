@@ -37,3 +37,8 @@ export const createItemMap = (itemList) => {
     return map
   }, {})
 }
+
+export const localDate = (dateStr, timeStr) => {
+  const utcDate = Date.parse(`${dateStr} ${timeStr} UTC`)
+  return new Date(utcDate)
+}

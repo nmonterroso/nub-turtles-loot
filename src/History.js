@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import GeneratedAt from './GeneratedAt'
 import ItemLink from './ItemLink'
 import { User, UserList } from './User'
-import { createIdToObjMap, createItemMap, createUserMap } from './util'
+import { createIdToObjMap, createItemMap, createUserMap, localDate } from './util'
 
 const WRAP_CUTOFF = '550px'
 
@@ -10,11 +10,10 @@ const formatHistory = (historyList, userMap, listMap, itemMap) => {
   return historyList
     .filter(h => !['A', 'R', 'D'].includes(h.w))
     .map(h => ({
-      date: h.d,
-      time: h.t,
-      item: itemMap[h.id],
-      user: userMap[h.u],
-      list: listMap[h.w]
+      date: localDate(h.d, h.t),
+      item: itemMap[h.id] || '',
+      user: userMap[h.u] || '',
+      list: listMap[h.w] || ''
     }))
 }
 
@@ -23,7 +22,7 @@ const WonItem = styled(({ className, item, date, list }) => {
     <div className={className}>
       <ItemLink id={item.id} name={item.name} quality={item.quality} />
       <span>
-        {date}, {list.name}
+        {date.toLocaleDateString()}, {list.name}
       </span>
     </div>
   )
@@ -73,11 +72,11 @@ const History = ({ className, history }) => {
 
   return (
     <div className={className}>
-      <GeneratedAt date={data.date} time={data.time} />
+      <GeneratedAt date={localDate(data.date, data.time)} />
       <UserList>
         {formatHistory(data.history, userMap, listMap, itemMap).map(h => (
           <HistoryUser
-            key={`${h.user.id}-${h.item.id}-${h.date}-${h.time}`}
+            key={`${h.user.id}-${h.item.id}-${h.date.toLocaleString()}`}
             name={h.user.name}
             cls={h.user.cls}
           >
