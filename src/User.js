@@ -45,11 +45,13 @@ line-height: 0;
 > img {
   margin-right: 15px;
   border-radius: 50%;
+  height: 32px;
 }
 
 > div:nth-child(2) {
   margin-right: 15px;
   font-weight: bold;
+  width: 125px;
   
   &[data-class="warrior"] {
     color: #C69B6D;

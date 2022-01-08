@@ -17,6 +17,24 @@ const formatHistory = (historyList, userMap, listMap, itemMap) => {
     }))
 }
 
+const WonItem = styled(({ className, item, date, list }) => {
+  return (
+    <div className={className}>
+      <ItemLink id={item.id} name={item.name} quality={item.quality} />
+      <span>
+        {date}, {list.name}
+      </span>
+    </div>
+  )
+})`
+display: flex;
+justify-content: space-between;
+
+> span {
+  font-size: .9rem;
+}
+`
+
 const History = styled(({ className }) => {
   const data = history.ksk_history
   const userMap = createUserMap(data.users)
@@ -26,19 +44,17 @@ const History = styled(({ className }) => {
   return (
     <div className={className}>
       <GeneratedAt date={data.date} time={data.time} />
-      <div>
-        <UserList>
-          {formatHistory(data.history, userMap, listMap, itemMap).map(h => (
-            <User
-              key={`${h.user.id}-${h.item.id}-${h.date}-${h.time}`}
-              name={h.user.name}
-              cls={h.user.cls}
-            >
-              <ItemLink id={h.item.id} name={h.item.name} quality={h.item.quality} />
-            </User>
-          ))}
-        </UserList>
-      </div>
+      <UserList>
+        {formatHistory(data.history, userMap, listMap, itemMap).map(h => (
+          <User
+            key={`${h.user.id}-${h.item.id}-${h.date}-${h.time}`}
+            name={h.user.name}
+            cls={h.user.cls}
+          >
+            <WonItem item={h.item} date={h.date} list={h.list} />
+          </User>
+        ))}
+      </UserList>
     </div>
   )
 })`
