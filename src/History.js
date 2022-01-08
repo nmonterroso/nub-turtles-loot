@@ -65,7 +65,7 @@ const HistoryUser = styled(User)`
 }
 `
 
-const History = styled(({ className, history }) => {
+const History = ({ className, history }) => {
   const data = history.ksk_history
   const userMap = createUserMap(data.users)
   const listMap = createIdToObjMap(data.lists)
@@ -87,7 +87,6 @@ const History = styled(({ className, history }) => {
       </UserList>
     </div>
   )
-})`
-`
+}
 
 export default History

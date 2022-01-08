@@ -10,10 +10,9 @@ const VIEWS = {
   HISTORY: 'history',
 }
 
-const Loading = styled(({ className}) => {
+const Loading = () => {
   return <div>Loading...</div>
-})`
-`
+}
 
 const HistoryWrapper = ({ history }) => history === null ? <Loading /> : <History history={history} />
 const ListWrapper = ({ lists }) => lists === null ? <Loading /> : <Lists lists={lists} />
