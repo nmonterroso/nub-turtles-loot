@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import logo from './logo.png';
+import Lists from './Lists'
+import History from './History'
 
 const BACKGROUND_COLOR = '#131313'
 const VIEWS = {
@@ -27,7 +29,7 @@ const App = styled(({ className }) => {
           <li><a href="#" onClick={e => onChangeView(e, VIEWS.HISTORY)} data-active={currentView === VIEWS.HISTORY}>HISTORY</a></li>
         </ul>
         <div data-round-first={currentView !== VIEWS.LISTS}>
-
+          {currentView === VIEWS.LISTS ? <Lists /> : <History />}
         </div>
       </div>
     </div>
@@ -94,9 +96,11 @@ a {
   
   > div {
     background: ${BACKGROUND_COLOR};
+    color: white;
     width: 100%;
     min-height: 500px;
     border-radius: 0 10px 10px 10px;
+    padding: 15px 25px;
     
     &[data-round-first="true"] {
       border-top-left-radius: 10px;
