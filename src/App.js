@@ -36,7 +36,7 @@ const App = styled(({ className }) => {
   );
 })`
 padding: 15px 20px;
-display: flexbox;
+display: flex;
 flex-direction: row;
 justify-content: center;
 
@@ -48,6 +48,8 @@ a {
   position: sticky;
   top: 0;
   margin-right: 10px;
+  width: 180px;
+  height: 230px;
 }
 
 > div {
@@ -105,6 +107,15 @@ a {
     &[data-round-first="true"] {
       border-top-left-radius: 10px;
     }
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  flex-direction: column;
+  
+  > img {
+    position: static;
+    margin: 0 auto;
   }
 }
 `

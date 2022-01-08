@@ -4,6 +4,8 @@ import GeneratedAt from './GeneratedAt'
 import { User, UserList } from './User'
 import { createUserList } from './util'
 
+const WRAP_CUTOFF = '450px'
+
 const List = styled(({ className, name, users }) => {
   return (
     <div className={className}>
@@ -18,6 +20,11 @@ width: 47.5%;
 
 > h2 {
   margin: 0 0 10px;
+}
+
+@media only screen and (max-width: ${WRAP_CUTOFF}) {
+  width: 100%;
+  margin-bottom: 15px;
 }
 `
 
@@ -35,6 +42,12 @@ const Lists = styled(({ className }) => {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+@media only screen and (max-width: ${WRAP_CUTOFF}) {
+  > div:last-child {
+    flex-direction: column;
+  }
 }
 `
 

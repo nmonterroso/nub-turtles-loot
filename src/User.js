@@ -40,7 +40,7 @@ border: 1px solid black;
 display: flex;
 align-items: center;
 padding: 5px 10px;
-line-height: 0;
+line-height: 1rem;
 
 > img {
   margin-right: 15px;
