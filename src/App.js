@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import logo from './logo.png';
 import Lists from './Lists'
@@ -10,8 +10,28 @@ const VIEWS = {
   HISTORY: 'history',
 }
 
+const Loading = styled(({ className}) => {
+  return <div>Loading...</div>
+})`
+`
+
+const HistoryWrapper = ({ history }) => history === null ? <Loading /> : <History history={history} />
+const ListWrapper = ({ lists }) => lists === null ? <Loading /> : <Lists lists={lists} />
+
 const App = styled(({ className }) => {
   const [currentView, setCurrentView] = useState(VIEWS.LISTS)
+  const [lists, setLists] = useState(null)
+  const [history, setHistory] = useState(null)
+
+  useEffect(() => {
+    fetch('/data/history.json')
+      .then(resp => resp.json())
+      .then(h => setHistory(h))
+
+    fetch('/data/lists.json')
+      .then(resp => resp.json())
+      .then(l => setLists(l))
+  }, [])
 
   const onChangeView = (e, nextView) => {
     e.preventDefault()
@@ -29,7 +49,7 @@ const App = styled(({ className }) => {
           <li><a href="#" onClick={e => onChangeView(e, VIEWS.HISTORY)} data-active={currentView === VIEWS.HISTORY}>HISTORY</a></li>
         </ul>
         <div data-round-first={currentView !== VIEWS.LISTS}>
-          {currentView === VIEWS.LISTS ? <Lists /> : <History />}
+          {currentView === VIEWS.LISTS ? <ListWrapper lists={lists} /> : <HistoryWrapper history={history} />}
         </div>
       </div>
     </div>

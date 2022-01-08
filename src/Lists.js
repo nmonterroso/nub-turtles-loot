@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import lists from './data/lists.json'
 import GeneratedAt from './GeneratedAt'
 import { User, UserList } from './User'
 import { createUserList } from './util'
@@ -28,7 +27,7 @@ width: 47.5%;
 }
 `
 
-const Lists = styled(({ className }) => {
+const Lists = styled(({ className, lists }) => {
   return (
     <div className={className}>
       <GeneratedAt date={lists.ksk.date} time={lists.ksk.time} />

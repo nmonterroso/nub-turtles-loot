@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import history from './data/history.json'
 import GeneratedAt from './GeneratedAt'
 import ItemLink from './ItemLink'
 import { User, UserList } from './User'
@@ -66,7 +65,7 @@ const HistoryUser = styled(User)`
 }
 `
 
-const History = styled(({ className }) => {
+const History = styled(({ className, history }) => {
   const data = history.ksk_history
   const userMap = createUserMap(data.users)
   const listMap = createIdToObjMap(data.lists)
