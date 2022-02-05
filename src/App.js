@@ -35,7 +35,7 @@ const App = styled(({ className }) => {
     Promise.all(listUrls().map(url => fetch(url).then(r => r.json())))
       .then(responseToListMap)
       .then(setLists)
-  }, [])
+  }, [useHistory])
 
   const onChangeView = (e, nextView) => {
     e.preventDefault()
