@@ -15,11 +15,13 @@ const KSK_CLASS_ID_TO_NAME = {
 const googleResponseToListMap = (lists) => {
   return lists.map(list => ({
     name: list.range.split('!')[0],
-    users: list.values.map(([cls, name]) => ({
-      id: name,
-      name: name,
-      cls: cls
-    }))
+    users: list.values
+      .map(([cls, name]) => ({
+        id: name,
+        name: name,
+        cls: cls
+      }))
+      .filter(u => !!u.id)
   }))
 }
 
