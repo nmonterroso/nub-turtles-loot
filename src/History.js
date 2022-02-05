@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import GeneratedAt from './GeneratedAt'
 import ItemLink from './ItemLink'
 import { User, UserList } from './User'
 import { createIdToObjMap, createItemMap, createUserMap, localDate } from './util'
@@ -72,7 +71,6 @@ const History = ({ className, history }) => {
 
   return (
     <div className={className}>
-      <GeneratedAt date={localDate(data.date, data.time)} />
       <UserList>
         {formatHistory(data.history, userMap, listMap, itemMap).map(h => (
           <HistoryUser

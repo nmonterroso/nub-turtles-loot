@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { HISTORY_URL, listUrls } from './config'
 import logo from './logo.png';
 import Lists from './Lists'
 import History from './History'
+import { responseToListMap } from './util'
 
 const BACKGROUND_COLOR = '#131313'
 const VIEWS = {
@@ -21,15 +23,18 @@ const App = styled(({ className }) => {
   const [currentView, setCurrentView] = useState(VIEWS.LISTS)
   const [lists, setLists] = useState(null)
   const [history, setHistory] = useState(null)
+  const useHistory = !!HISTORY_URL
 
   useEffect(() => {
-    fetch('/data/history.json')
-      .then(resp => resp.json())
-      .then(h => setHistory(h))
+    if (useHistory) {
+      fetch(HISTORY_URL)
+        .then(resp => resp.json())
+        .then(h => setHistory(h))
+    }
 
-    fetch('/data/lists.json')
-      .then(resp => resp.json())
-      .then(l => setLists(l))
+    Promise.all(listUrls().map(url => fetch(url).then(r => r.json())))
+      .then(responseToListMap)
+      .then(setLists)
   }, [])
 
   const onChangeView = (e, nextView) => {
@@ -44,8 +49,19 @@ const App = styled(({ className }) => {
       <img src={logo} alt="logo" />
       <div>
         <ul>
-          <li><a href="#" onClick={e => onChangeView(e, VIEWS.LISTS)} data-active={currentView === VIEWS.LISTS}>PRIO LISTS</a></li>
-          <li><a href="#" onClick={e => onChangeView(e, VIEWS.HISTORY)} data-active={currentView === VIEWS.HISTORY}>HISTORY</a></li>
+          <li>
+            <a href="#" onClick={e => onChangeView(e, VIEWS.LISTS)} data-active={currentView === VIEWS.LISTS}>
+              PRIO LISTS
+            </a>
+          </li>
+          {useHistory && (
+            <li>
+              <a href="#" onClick={e => onChangeView(e, VIEWS.HISTORY)} data-active={currentView === VIEWS.HISTORY}>
+                HISTORY
+              </a>
+            </li>
+          )}
+
         </ul>
         <div data-round-first={currentView !== VIEWS.LISTS}>
           {currentView === VIEWS.LISTS ? <ListWrapper lists={lists} /> : <HistoryWrapper history={history} />}

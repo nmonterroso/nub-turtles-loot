@@ -1,7 +1,5 @@
 import styled from 'styled-components'
-import GeneratedAt from './GeneratedAt'
 import { User, UserList } from './User'
-import { createUserList, localDate } from './util'
 
 const WRAP_CUTOFF = '450px'
 
@@ -30,23 +28,16 @@ width: 47.5%;
 const Lists = styled(({ className, lists }) => {
   return (
     <div className={className}>
-      <GeneratedAt date={localDate(lists.ksk.date, lists.ksk.time)} />
-      <div>
-        {lists.ksk.lists.map(list => <List key={list.id} name={list.n} users={createUserList(list.users, lists.ksk.users)} />)}
-      </div>
+      {lists.map(list => <List key={list.name} name={list.name} users={list.users} />)}
     </div>
   )
 })`
-> div:last-child {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
+display: flex;
+flex-direction: row;
+justify-content: space-between;
 
 @media only screen and (max-width: ${WRAP_CUTOFF}) {
-  > div:last-child {
-    flex-direction: column;
-  }
+  flex-direction: column;
 }
 `
 
