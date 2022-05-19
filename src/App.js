@@ -4,7 +4,7 @@ import { HISTORY_URL, listUrls, ROSTER_URL } from './config'
 import logo from './logo.png';
 import Lists from './Lists'
 import History from './History'
-import { createHistory, createSkLists, createUserList } from './util'
+import { createHistory, createSkLists } from './util'
 
 const BACKGROUND_COLOR = '#131313'
 const VIEWS = {
@@ -46,12 +46,12 @@ const App = styled(({ className }) => {
       <div>
         <ul>
           <li>
-            <a href="#" onClick={e => onChangeView(e, VIEWS.HISTORY)} data-active={currentView === VIEWS.HISTORY}>
+            <a href="/" onClick={e => onChangeView(e, VIEWS.HISTORY)} data-active={currentView === VIEWS.HISTORY}>
               SWP LOOT
             </a>
           </li>
           <li>
-            <a href="#" onClick={e => onChangeView(e, VIEWS.LISTS)} data-active={currentView === VIEWS.LISTS}>
+            <a href="/" onClick={e => onChangeView(e, VIEWS.LISTS)} data-active={currentView === VIEWS.LISTS}>
               BT/HYJAL SK LISTS
             </a>
           </li>
