@@ -5,7 +5,7 @@ const ItemLink = ({ id }) => {
       target="_blank"
       rel="noreferrer"
     >
-      <span>{id}</span>
+      &nbsp;
     </a>
   )
 }

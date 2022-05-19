@@ -2,15 +2,16 @@ import { useEffect } from 'react'
 import styled from 'styled-components'
 import ItemLink from './ItemLink'
 import { User, UserList } from './User'
+import { localDate } from './util'
 
 const WRAP_CUTOFF = '550px'
 
-const WonItem = styled(({ className, itemId, date }) => {
+const WonItem = styled(({ className, itemId, dateStr }) => {
   return (
     <div className={className}>
       <ItemLink id={itemId} />
       <span>
-        {date.toLocaleDateString()}
+        {localDate(dateStr)}
       </span>
     </div>
   )
@@ -53,22 +54,16 @@ const HistoryUser = styled(User)`
 `
 
 const History = ({ className, history }) => {
-  useEffect(() => {
-    if (window.$WowheadPower) {
-      window.$WowheadPower.refreshLinks()
-    }
-  }, [])
-
   return (
     <div className={className}>
       <UserList>
-        {history.map(({ user, date, itemId}) => (
+        {history.map(({ user, dateStr, itemId}) => (
           <HistoryUser
-            key={`${user.name}-${date.getTime()}-${itemId}`}
+            key={`${user.name}-${dateStr}-${itemId}`}
             name={user.name}
             cls={user.cls}
           >
-            <WonItem itemId={itemId} date={date} />
+            <WonItem itemId={itemId} dateStr={dateStr} />
           </HistoryUser>
         ))}
       </UserList>

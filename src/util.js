@@ -7,27 +7,23 @@ const userListToMap = (userList) => {
 
 const createUser = (name, cls) => ({ name, cls })
 
-const localDate = (dateStr) => {
-  return new Date(dateStr)
+export const localDate = (dateStr) => {
+  return new Date(dateStr).toLocaleDateString()
 }
 
 export const createUserList = (rawListJson) => {
   return rawListJson.values.map(([cls, name]) => createUser(name, cls))
 }
 
-export const createHistory = ([rawRoster, rawHistory]) => {
+export const createHistory = (rawRoster, rawHistory) => {
   const userMap = userListToMap(createUserList(rawRoster))
-  return rawHistory.values.map(([date, userName, itemId]) => {
+  return rawHistory.values.map(([dateStr, userName, itemId]) => {
     let user = userMap[userName]
     if (user === undefined) {
       user = createUser(userName, '')
     }
 
-    return {
-      date: localDate(date),
-      itemId,
-      user
-    }
+    return { dateStr, itemId, user }
   }).reverse()
 }
 

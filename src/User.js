@@ -1,34 +1,9 @@
 import styled from 'styled-components'
-import warrior from './img/warrior.png'
-import paladin from './img/paladin.png'
-import hunter from './img/hunter.png'
-import rogue from './img/rogue.png'
-import priest from './img/priest.png'
-import shaman from './img/shaman.png'
-import mage from './img/mage.png'
-import warlock from './img/warlock.png'
-import druid from './img/druid.png'
-
-
-const classIcon = (cls) => {
-  switch (cls) {
-    case 'warrior': return warrior
-    case 'paladin': return paladin
-    case 'hunter': return hunter
-    case 'rogue': return rogue
-    case 'priest': return priest
-    case 'shaman': return shaman
-    case 'mage': return mage
-    case 'warlock': return warlock
-    case 'druid': return druid
-    default: return warrior
-  }
-}
 
 export const User = styled(({ className, name, cls, children }) => {
   return (
     <div className={className}>
-      <img src={classIcon(cls)} alt={cls} />
+      <img src={`/${cls}.png`} alt={cls} />
       <div data-class={cls}>{name}</div>
       <div>{children || ''}</div>
     </div>
