@@ -1,27 +1,16 @@
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import ItemLink from './ItemLink'
 import { User, UserList } from './User'
-import { createIdToObjMap, createItemMap, createUserMap, localDate } from './util'
 
 const WRAP_CUTOFF = '550px'
 
-const formatHistory = (historyList, userMap, listMap, itemMap) => {
-  return historyList
-    .filter(h => !['A', 'R', 'D'].includes(h.w))
-    .map(h => ({
-      date: localDate(h.d, h.t),
-      item: itemMap[h.id] || '',
-      user: userMap[h.u] || '',
-      list: listMap[h.w] || ''
-    }))
-}
-
-const WonItem = styled(({ className, item, date, list }) => {
+const WonItem = styled(({ className, itemId, date }) => {
   return (
     <div className={className}>
-      <ItemLink id={item.id} name={item.name} quality={item.quality} />
+      <ItemLink id={itemId} />
       <span>
-        {date.toLocaleDateString()}, {list.name}
+        {date.toLocaleDateString()}
       </span>
     </div>
   )
@@ -64,21 +53,22 @@ const HistoryUser = styled(User)`
 `
 
 const History = ({ className, history }) => {
-  const data = history.ksk_history
-  const userMap = createUserMap(data.users)
-  const listMap = createIdToObjMap(data.lists)
-  const itemMap = createItemMap(data.items)
+  useEffect(() => {
+    if (window.$WowheadPower) {
+      window.$WowheadPower.refreshLinks()
+    }
+  }, [])
 
   return (
     <div className={className}>
       <UserList>
-        {formatHistory(data.history, userMap, listMap, itemMap).map(h => (
+        {history.map(({ user, date, itemId}) => (
           <HistoryUser
-            key={`${h.user.id}-${h.item.id}-${h.date.toLocaleString()}`}
-            name={h.user.name}
-            cls={h.user.cls}
+            key={`${user.name}-${date.getTime()}-${itemId}`}
+            name={user.name}
+            cls={user.cls}
           >
-            <WonItem item={h.item} date={h.date} list={h.list} />
+            <WonItem itemId={itemId} date={date} />
           </HistoryUser>
         ))}
       </UserList>

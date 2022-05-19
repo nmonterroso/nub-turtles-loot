@@ -8,7 +8,7 @@ const List = styled(({ className, name, users }) => {
     <div className={className}>
       <h2>{name}</h2>
       <UserList>
-        {users.map(u => <User key={u.id} name={u.name} cls={u.cls} />)}
+        {users.map(u => <User key={u.name} name={u.name} cls={u.cls} />)}
       </UserList>
     </div>
   )

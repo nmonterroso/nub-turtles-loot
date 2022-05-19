@@ -1,11 +1,10 @@
-const ItemLink = ({ id, name, quality}) => {
+const ItemLink = ({ id }) => {
   return (
     <a
       href={`https://tbc.wowhead.com/item=${id}`}
-      className={`q${quality}`}
       target="_blank"
     >
-      <span>{name}</span>
+      <span>{id}</span>
     </a>
   )
 }

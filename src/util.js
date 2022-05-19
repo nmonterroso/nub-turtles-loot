@@ -1,74 +1,39 @@
-import { DATA_SOURCE } from './config'
-
-const KSK_CLASS_ID_TO_NAME = {
-  '01': 'warrior',
-  '02': 'paladin',
-  '03': 'hunter',
-  '04': 'rogue',
-  '05': 'priest',
-  '07': 'shaman',
-  '08': 'mage',
-  '09': 'warlock',
-  '11': 'druid',
-}
-
-const googleResponseToListMap = (lists) => {
-  return lists.map(list => ({
-    name: list.range.split('!')[0],
-    users: list.values
-      .map(([cls, name]) => ({
-        id: name,
-        name: name,
-        cls: cls
-      }))
-      .filter(u => !!u.id)
-  }))
-}
-
-const kskResponseToListMap = (resp) => {
-  return resp.ksk.lists.map(list => ({
-    name: list.n,
-    users: list.users
-      .map(userId => resp.ksk.users.find(u => u.id === userId))
-      .filter(u => !!u)
-      .map(user => ({
-        id: user.id,
-        name: user.n,
-        cls: KSK_CLASS_ID_TO_NAME[user.c] || 'other'
-      }))
-  }))
-}
-
-export const responseToListMap = (resp) => {
-  if (DATA_SOURCE === 'google') {
-    return googleResponseToListMap(resp)
-  } else {
-    return kskResponseToListMap(resp[0])
-  }
-}
-
-export const createUserMap = (userList) => {
+const userListToMap = (userList) => {
   return userList.reduce((map, user) => {
-    map[user.id] = {id: user.id, name: user.n, cls: KSK_CLASS_ID_TO_NAME[user.c] || 'other'}
+    map[user.name] = user
     return map
   }, {})
 }
 
-export const createIdToObjMap = (objList) => {
-  return objList.reduce((map, obj) => {
-    map[obj.id] = {id: obj.id, name: obj.n}
-    return map
-  }, {})
+const createUser = (name, cls) => ({ name, cls })
+
+const localDate = (dateStr) => {
+  return new Date(dateStr)
 }
 
-export const createItemMap = (itemList) => {
-  return itemList.reduce((map, item) => {
-    map[item.id] = {id: item.id, name: item.n, quality: item.q}
-    return map
-  }, {})
+export const createUserList = (rawListJson) => {
+  return rawListJson.values.map(([cls, name]) => createUser(name, cls))
 }
 
-export const localDate = (dateStr, timeStr) => {
-  const utcDate = Date.parse(`${dateStr} ${timeStr} UTC`)
-  return new Date(utcDate)
+export const createHistory = ([rawRoster, rawHistory]) => {
+  const userMap = userListToMap(createUserList(rawRoster))
+  return rawHistory.values.map(([date, userName, itemId]) => {
+    let user = userMap[userName]
+    if (user === undefined) {
+      user = createUser(userName, '')
+    }
+
+    return {
+      date: localDate(date),
+      itemId,
+      user
+    }
+  }).reverse()
+}
+
+export const createSkLists = (rawListsJson) => {
+  return rawListsJson.map(list => ({
+    name: list.range.split('!')[0],
+    users: createUserList(list)
+  }))
 }

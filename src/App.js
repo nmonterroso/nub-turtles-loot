@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { HISTORY_URL, listUrls } from './config'
+import { HISTORY_URL, listUrls, ROSTER_URL } from './config'
 import logo from './logo.png';
 import Lists from './Lists'
 import History from './History'
-import { responseToListMap } from './util'
+import { createHistory, createSkLists, createUserList } from './util'
 
 const BACKGROUND_COLOR = '#131313'
 const VIEWS = {
@@ -20,22 +20,18 @@ const HistoryWrapper = ({ history }) => history === null ? <Loading /> : <Histor
 const ListWrapper = ({ lists }) => lists === null ? <Loading /> : <Lists lists={lists} />
 
 const App = styled(({ className }) => {
-  const [currentView, setCurrentView] = useState(VIEWS.LISTS)
+  const [currentView, setCurrentView] = useState(VIEWS.HISTORY)
   const [lists, setLists] = useState(null)
   const [history, setHistory] = useState(null)
-  const useHistory = !!HISTORY_URL
 
   useEffect(() => {
-    if (useHistory) {
-      fetch(HISTORY_URL)
-        .then(resp => resp.json())
-        .then(h => setHistory(h))
-    }
-
+    Promise.all([ROSTER_URL, HISTORY_URL].map(url => fetch(url).then(r => r.json())))
+      .then(createHistory)
+      .then(setHistory)
     Promise.all(listUrls().map(url => fetch(url).then(r => r.json())))
-      .then(responseToListMap)
+      .then(createSkLists)
       .then(setLists)
-  }, [useHistory])
+  }, [])
 
   const onChangeView = (e, nextView) => {
     e.preventDefault()
@@ -50,18 +46,15 @@ const App = styled(({ className }) => {
       <div>
         <ul>
           <li>
-            <a href="#" onClick={e => onChangeView(e, VIEWS.LISTS)} data-active={currentView === VIEWS.LISTS}>
-              PRIO LISTS
+            <a href="#" onClick={e => onChangeView(e, VIEWS.HISTORY)} data-active={currentView === VIEWS.HISTORY}>
+              SWP LOOT
             </a>
           </li>
-          {useHistory && (
-            <li>
-              <a href="#" onClick={e => onChangeView(e, VIEWS.HISTORY)} data-active={currentView === VIEWS.HISTORY}>
-                HISTORY
-              </a>
-            </li>
-          )}
-
+          <li>
+            <a href="#" onClick={e => onChangeView(e, VIEWS.LISTS)} data-active={currentView === VIEWS.LISTS}>
+              BT/HYJAL SK LISTS
+            </a>
+          </li>
         </ul>
         <div data-round-first={currentView !== VIEWS.LISTS}>
           {currentView === VIEWS.LISTS ? <ListWrapper lists={lists} /> : <HistoryWrapper history={history} />}
