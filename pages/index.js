@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
-import { HISTORY_URL, listUrls, ROSTER_URL } from '../src/config'
+import { HISTORY_URL, LISTS_URLS, ROSTER_URL } from '../src/config'
 import Lists from '../src/Lists'
 import History from '../src/History'
 import { createHistory, createSkLists } from '../src/util'
@@ -10,7 +10,7 @@ export async function getServerSideProps(context) {
   const roster = await rosterResponse.json()
   const history = await historyResponse.json()
 
-  const listsResponses = await Promise.all(listUrls().map(url => fetch(url)))
+  const listsResponses = await Promise.all(LISTS_URLS.map(url => fetch(url)))
   const lists = await Promise.all(listsResponses.map(listResp => listResp.json()))
 
   return {

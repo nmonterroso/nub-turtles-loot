@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import styled from 'styled-components'
 import ItemLink from './ItemLink'
 import { User, UserList } from './User'
