@@ -56,12 +56,7 @@ const App = styled(({ className, history, lists }) => {
         <ul>
           <li>
             <a href="/" onClick={e => onChangeView(e, VIEWS.HISTORY)} data-active={currentView === VIEWS.HISTORY}>
-              SWP LOOT
-            </a>
-          </li>
-          <li>
-            <a href="/" onClick={e => onChangeView(e, VIEWS.LISTS)} data-active={currentView === VIEWS.LISTS}>
-              BT/HYJAL SK LISTS
+              NAXX LOOT
             </a>
           </li>
         </ul>
