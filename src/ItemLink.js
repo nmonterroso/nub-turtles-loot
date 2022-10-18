@@ -1,7 +1,7 @@
 const ItemLink = ({ id }) => {
   return (
     <a
-      href={`https://tbc.wowhead.com/item=${id}`}
+      href={`https://www.wowhead.com/wotlk/item=${id}`}
       target="_blank"
       rel="noreferrer"
     >

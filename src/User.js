@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 
 export const User = styled(({ className, name, cls, children }) => {
+  const imageName = cls !== 'deathknight' ? `${cls}.png` : 'deathknight.webp'
   return (
     <div className={className}>
-      <img src={`/${cls}.png`} alt={cls} />
+      <img src={`/${imageName}`} alt={cls} />
       <div data-class={cls}>{name}</div>
       <div>{children || ''}</div>
     </div>
