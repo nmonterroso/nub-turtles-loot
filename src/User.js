@@ -64,6 +64,10 @@ line-height: 1rem;
   &[data-class="druid"] {
     color: #FF7C0A;
   }
+  
+  &[data-class="deathknight"] {
+    color: #C41E3A;
+  }
 }
 
 > div:last-child {
