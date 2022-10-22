@@ -8,7 +8,8 @@ const userListToMap = (userList) => {
 const createUser = (name, cls) => ({ name, cls })
 
 export const localDate = (dateStr) => {
-  return new Date(dateStr).toLocaleDateString()
+  const utcDateStr = `${dateStr}T00:00:00-07:00`
+  return new Date(utcDateStr).toLocaleDateString()
 }
 
 export const createUserList = (rawListJson) => {
